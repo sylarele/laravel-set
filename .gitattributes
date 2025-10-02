@@ -1,0 +1,9 @@
+* text=auto
+
+.gitattributes export-ignore
+.github export-ignore
+.gitignore export-ignore
+.php-cs-fixer.php export-ignore
+Makefile export-ignore
+phpstan.neon.dist export-ignore
+rector.php export-ignore

@@ -1,0 +1,16 @@
+includes:
+    - ./vendor/phpstan/phpstan-strict-rules/rules.neon
+
+parameters:
+    level: max
+
+    strictRules:
+    	dynamicCallOnStaticMethod: false
+
+    parallel:
+        maximumNumberOfProcesses: 6
+
+    tmpDir: storage/tmp/phpstan
+
+    paths:
+        - src
