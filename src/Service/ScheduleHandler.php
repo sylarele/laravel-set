@@ -41,6 +41,10 @@ final readonly class ScheduleHandler implements ScheduleInterface
         foreach ($filenames as $filename) {
             $scheduleClass = require_once $filename;
 
+            if ($scheduleClass === true) {
+                continue;
+            }
+
             if (! $scheduleClass instanceof ScheduleInterface) {
                 throw new InvalidArgumentException(
                     \sprintf(
