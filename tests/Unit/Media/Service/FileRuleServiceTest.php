@@ -11,9 +11,9 @@ use PHPUnit\Framework\Attributes\TestDox;
 use Sylarele\LaravelSet\Media\Dto\Config\FileRuleConfigDto;
 use Sylarele\LaravelSet\Media\Dto\Config\ImageConfigDto;
 use Sylarele\LaravelSet\Media\Dto\MediaInfoDto;
+use Sylarele\LaravelSet\Media\Enum\File\UnitFormat;
 use Sylarele\LaravelSet\Media\Service\FileRuleService;
 use Sylarele\LaravelSet\Tests\TestCase;
-use Workbench\App\Enums\File\FileScope;
 use Workbench\App\Enums\File\PublicFileType;
 
 /**
@@ -31,8 +31,8 @@ final class FileRuleServiceTest extends TestCase
     {
         Config::set('file_rules.rules', [
             PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(
-                sizeMin: '1mb',
-                sizeMax: '2mb'
+                sizeMin: '1mo',
+                sizeMax: '2mo'
             ),
         ]);
 
@@ -44,8 +44,10 @@ final class FileRuleServiceTest extends TestCase
         self::assertInstanceOf(FileRuleConfigDto::class, $result->fileRuleDto);
         self::assertSame('image', $result->fileRuleDto->type);
         self::assertSame(['png', 'jpg', 'jpeg', 'webp'], $result->fileRuleDto->mimes);
-        self::assertSame('1mb', $result->fileRuleDto->sizeMin);
-        self::assertSame('2mb', $result->fileRuleDto->sizeMax);
+        self::assertSame(UnitFormat::Mo, $result->fileRuleDto->sizeMin->unit);
+        self::assertSame(UnitFormat::Mo, $result->fileRuleDto->sizeMax->unit);
+        self::assertSame(1.0, $result->fileRuleDto->sizeMin->size);
+        self::assertSame(2.0, $result->fileRuleDto->sizeMax->size);
 
         self::assertInstanceOf(ImageConfigDto::class, $result->imageConfigDto);
         self::assertSame(100, $result->imageConfigDto->resizeHeight);

@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Sylarele\LaravelSet\Media\Service;
 
 use BackedEnum;
+use InvalidArgumentException;
+use RuntimeException;
 use Sylarele\LaravelSet\Media\Dto\Config\FileRuleConfigDto;
 use Sylarele\LaravelSet\Media\Dto\Config\ImageConfigDto;
 use Sylarele\LaravelSet\Media\Dto\MediaInfoDto;
+use Sylarele\LaravelSet\Media\Enum\File\FileWeightPolicy;
+use Sylarele\LaravelSet\Media\Enum\File\UnitFormat;
 
 class FileRuleService
 {
@@ -34,8 +38,40 @@ class FileRuleService
     {
         return new MediaInfoDto(
             key: $key,
-            fileRuleDto: $this->fileRulesConfig[$key->value] ?? null,
-            imageConfigDto: $this->imagesConfig[$key->value] ?? null,
+            fileRuleDto: $this->fileRulesConfig[(string) $key->value],
+            imageConfigDto: $this->imagesConfig[(string) $key->value],
         );
     }
+
+    public function findFileRuleOrFail(BackedEnum $key): FileRuleConfigDto
+    {
+        $rule = $this->find($key);
+
+        return $rule->fileRuleDto instanceof FileRuleConfigDto
+            ? $rule->fileRuleDto
+            : throw new RuntimeException('FileRule rule already defined');
+    }
+
+    /**
+     * @param int $size The filesize in bytes
+     */
+    public function validatedSize(
+        BackedEnum $key,
+        int        $size,
+    ): FileWeightPolicy {
+        $fileRule = $this->findFileRuleOrFail($key);
+
+        $sizeMin = $fileRule->sizeMin->getBytes();
+        if ($size < $sizeMin) {
+            return FileWeightPolicy::Below;
+        }
+
+        $sizeMax = $fileRule->sizeMax->getBytes();
+        if ($size > $sizeMax) {
+            return FileWeightPolicy::Exceeded;
+        }
+
+        return FileWeightPolicy::Within;
+    }
+
 }

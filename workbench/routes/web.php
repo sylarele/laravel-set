@@ -5,5 +5,9 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use Workbench\App\Http\Controllers\FileRuleController;
 
-Route::get('file-rules', [FileRuleController::class, 'index'])
-    ->name('file-rules.index');
+Route::prefix('file-rules')->name('file-rules.')->group(function () {
+    Route::get('/', [FileRuleController::class, 'index'])
+        ->name('index');
+    Route::post('/', [FileRuleController::class, 'storeImage'])
+        ->name('store-image');
+});
