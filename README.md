@@ -81,3 +81,91 @@ See the schedule list :
 ```php
 php artisan schedule:list
 ```
+
+## Media
+
+### Rules
+
+When you need to manage multiple media types in your application, it is best to centralize the validation rules in your configuration.
+
+Create an enumeration to list your files:
+
+```php
+<?php
+enum PublicFileType: string
+{
+    case FooImage = 'foo:image';
+}
+```
+
+Create a `file_rules.php` and `image_rules.php` configuration file and declare your validation rules:
+
+```php
+<?php
+// config/file_rules.php
+
+use Sylarele\LaravelSet\Media\Dto\Config\FileRuleConfigDto;
+
+return [
+    'rules' => [
+        PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(),
+    ],
+];
+```
+
+The rules available for your media are:
+  - **FileRuleConfigDto::fromImage()**, `{min: 1ko, max: 400ko, mimes: ['png', 'jpg', 'jpeg', 'webp']}`
+  - **FileRuleConfigDto::fromFile()**, `{min: 1ko, max: 15mo, mimes: ['*']}`
+  - **FileRuleConfigDto::fromPdf()**, `{min: 1ko, max: 15mo, mimes: ['pdf']}`
+  - **FileRuleConfigDto::fromDocument()**, `{min: 1ko, max: 15mo, mimes: ['csv', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'xls', 'xlsx', 'webp']}`
+
+You can also rewrite the rules according to your needs by filling in the input parameters.
+
+```php
+<?php
+// config/image_rules.php
+
+use Sylarele\LaravelSet\Media\Dto\Config\ImageConfigDto;
+
+return [
+    'rules' => [
+        PublicFileType::FooImage->value => new ImageConfigDto(
+            resizeHeight: 300,
+            resizeWidth: 300,
+        ),
+    ],
+];
+```
+
+Declare your configurations in your `provider`:
+
+```php
+<?php
+
+use Sylarele\LaravelSet\Media\Service\FileRuleService;
+
+public function register(): void
+{
+    $this->app
+        ->when(FileRuleService::class)
+        ->needs('$fileRulesConfig')
+        ->giveConfig('file_rules.rules');
+    $this->app
+        ->when(FileRuleService::class)
+        ->needs('$imagesConfig')
+        ->giveConfig('image_rules.rules');
+}
+```
+
+In your `FormRequest`, call your rule with the key from your file:
+
+```php
+use Sylarele\LaravelSet\Media\Rule\FileRule;
+
+public function rules(): array
+{
+    return [
+        'image' => ['nullable', new FileRule(PublicFileType::FooImage)],
+    ];
+}
+```
