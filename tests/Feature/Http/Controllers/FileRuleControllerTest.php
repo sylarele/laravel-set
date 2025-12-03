@@ -7,7 +7,7 @@ namespace Sylarele\LaravelSet\Tests\Feature\Http\Controllers;
 use Illuminate\Http\UploadedFile;
 use Sylarele\LaravelSet\Tests\TestCase;
 
-class FileRuleControllerTest extends TestCase
+final class FileRuleControllerTest extends TestCase
 {
     public function testListFileRules(): void
     {

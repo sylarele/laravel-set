@@ -29,7 +29,6 @@ final class FileRule implements ValidationRule, ValidatorAwareRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-
         $validator = FacadeValidator::make(
             [$attribute => $value],
             [$attribute => [$this->buildValidationRules()]],
@@ -39,7 +38,7 @@ final class FileRule implements ValidationRule, ValidatorAwareRule
 
         if ($validator->fails()) {
             foreach ($validator->messages()->all() as $message) {
-                $fail($message);
+                $fail($this->validator->getTranslator()->get($message));
             }
         }
 

@@ -13,7 +13,7 @@ use Sylarele\LaravelSet\Tests\Helper\RuleHelpers;
 use Sylarele\LaravelSet\Tests\TestCase;
 use Workbench\App\Enums\File\PublicFileType;
 
-class FileRuleTest extends TestCase
+final class FileRuleTest extends TestCase
 {
     use RuleHelpers;
 
@@ -38,27 +38,79 @@ class FileRuleTest extends TestCase
         );
     }
 
-    public function testShouldFail(): void
+    public function testShouldFailWithoutFile(): void
+    {
+        Config::set('file_rules.rules', [
+            PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(),
+        ]);
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage(
+            'The field field must be a file. (and 3 more errors)'
+        );
+
+        $this->runValidation(
+            value: 'error',
+            rule: new FileRule(PublicFileType::FooImage),
+        );
+    }
+
+    public function testShouldFailWithBadMime(): void
+    {
+        Config::set('file_rules.rules', [
+            PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(),
+        ]);
+
+        $file = UploadedFile::fake()
+            ->image('image.gif')
+            ->size(250);
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage(
+            'The field field must be a file of type: png, jpg, jpeg, webp.'
+        );
+
+        $this->runValidation(
+            value: $file,
+            rule: new FileRule(PublicFileType::FooImage),
+        );
+    }
+
+    public function testShouldFailOnTheMinimumFileSize(): void
+    {
+        Config::set('file_rules.rules', [
+            PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(sizeMin: '2mo'),
+        ]);
+
+        $file = UploadedFile::fake()->image('example.webp')->size(1024);
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage(
+            'La taille du fichier de field doit être supérieure à 2 Mo.'
+        );
+
+        $this->runValidation(
+            value: $file,
+            rule: new FileRule(PublicFileType::FooImage),
+        );
+    }
+
+    public function testShouldFailOnTheMaximumFileSize(): void
     {
         Config::set('file_rules.rules', [
             PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(sizeMax: '1mo'),
         ]);
 
-        $file = UploadedFile::fake()->create('example.jpeg', 2048);
+        $file = UploadedFile::fake()->image('example.webp')->size(2048);
 
-        //$this->expectException(ValidationException::class);
+        $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(
             'La taille du fichier de field doit être inférieure à 1 Mo.'
         );
 
-        $validated = $this->runValidation(
+        $this->runValidation(
             value: $file,
             rule: new FileRule(PublicFileType::FooImage),
-        );
-
-        $this->assertEquals(
-            ['field' => $file],
-            $validated
         );
     }
 }

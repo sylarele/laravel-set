@@ -33,7 +33,7 @@ final readonly class FileRuleConfigDto
     public static function __set_state(array $properties): self
     {
         $stringableData = array_filter($properties, is_string(...));
-        /** @var array<array-key,string> $mimes */
+        /** @var array<array-key, string> $mimes */
         $mimes = \is_array($properties['mimes'])
             ? array_filter($properties['mimes'], is_string(...))
             : [];
@@ -63,7 +63,7 @@ final readonly class FileRuleConfigDto
     }
 
     /**
-     * @param array<int,string> $mimes
+     * @param array<int, string> $mimes
      */
     public static function fromDocument(
         array  $mimes = self::MIMES_ALLOWED_DOCUMENT,
@@ -91,7 +91,7 @@ final readonly class FileRuleConfigDto
     }
 
     /**
-     * @param array<int,string> $mimes
+     * @param array<int, string> $mimes
      */
     public static function fromFile(
         array  $mimes = [],

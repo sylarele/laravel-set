@@ -11,7 +11,7 @@ use Sylarele\LaravelSet\Media\Enum\File\UnitFormat;
 final readonly class SizeConfigDto
 {
     public function __construct(
-        public float      $size,
+        public float $size,
         public UnitFormat $unit,
     ) {
     }

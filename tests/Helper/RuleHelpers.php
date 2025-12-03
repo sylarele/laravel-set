@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sylarele\LaravelSet\Tests\Helper;
 
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader;
@@ -16,13 +17,13 @@ trait RuleHelpers
     /**
      * Running validation.
      *
-     * @return array<string,mixed>
+     * @return array<string, mixed>
      *
      * @throws ValidationException
      */
     protected function runValidation(
         mixed $value,
-        ValidationRule $rule,
+        ValidationRule|Rule $rule,
     ): array {
 
         $translator = new FileLoader(

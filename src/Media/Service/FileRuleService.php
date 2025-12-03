@@ -6,12 +6,10 @@ namespace Sylarele\LaravelSet\Media\Service;
 
 use BackedEnum;
 use InvalidArgumentException;
-use RuntimeException;
 use Sylarele\LaravelSet\Media\Dto\Config\FileRuleConfigDto;
 use Sylarele\LaravelSet\Media\Dto\Config\ImageConfigDto;
 use Sylarele\LaravelSet\Media\Dto\MediaInfoDto;
 use Sylarele\LaravelSet\Media\Enum\File\FileWeightPolicy;
-use Sylarele\LaravelSet\Media\Enum\File\UnitFormat;
 
 class FileRuleService
 {
@@ -26,7 +24,7 @@ class FileRuleService
     }
 
     /**
-     * @param array<int,BackedEnum> $enums
+     * @param array<int, BackedEnum> $enums
      * @return array<int, MediaInfoDto>
      */
     public function listByScope(array $enums): array
@@ -49,7 +47,12 @@ class FileRuleService
 
         return $rule->fileRuleDto instanceof FileRuleConfigDto
             ? $rule->fileRuleDto
-            : throw new RuntimeException('FileRule rule already defined');
+            : throw new InvalidArgumentException(
+                \sprintf(
+                    'File rule does not exist for "%s" key.',
+                    $key->value
+                )
+            );
     }
 
     /**
@@ -57,7 +60,7 @@ class FileRuleService
      */
     public function validatedSize(
         BackedEnum $key,
-        int        $size,
+        int $size,
     ): FileWeightPolicy {
         $fileRule = $this->findFileRuleOrFail($key);
 
