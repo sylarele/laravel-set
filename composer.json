@@ -18,9 +18,7 @@
     },
     "require": {
         "php": ">=8.3",
-        "illuminate/http": "^10.0|^11.0|^12.0",
-        "illuminate/contracts": "^10.0|^11.0|^12.0",
-        "illuminate/console": "^10.0|^11.0|^12.0"
+        "laravel/framework": "^10.0|^11.0|^12.0"
     },
     "require-dev": {
         "phpstan/phpstan-strict-rules": "^2.0",
@@ -29,7 +27,8 @@
         "shipmonk/composer-dependency-analyser": "^1.8",
         "friendsofphp/php-cs-fixer": "^3.88",
         "phpunit/phpunit": "^12.4",
-        "orchestra/testbench": "^10.7"
+        "orchestra/testbench": "^10.7",
+        "orchestra/testbench-core": "^10.8"
     },
     "scripts": {
         "post-autoload-dump": [

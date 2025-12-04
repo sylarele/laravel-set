@@ -114,10 +114,15 @@ return [
 ```
 
 The rules available for your media are:
-  - **FileRuleConfigDto::fromImage()**, `{min: 1ko, max: 400ko, mimes: ['png', 'jpg', 'jpeg', 'webp']}`
-  - **FileRuleConfigDto::fromFile()**, `{min: 1ko, max: 15mo, mimes: ['*']}`
-  - **FileRuleConfigDto::fromPdf()**, `{min: 1ko, max: 15mo, mimes: ['pdf']}`
-  - **FileRuleConfigDto::fromDocument()**, `{min: 1ko, max: 15mo, mimes: ['csv', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'xls', 'xlsx', 'webp']}`
+
+- **FileRuleConfigDto::fromImage()**,
+    - `{min: 1ko, max: 400ko, mimes: ['png', 'jpg', 'jpeg', 'webp']}`
+- **FileRuleConfigDto::fromFile()**,
+    - `{min: 1ko, max: 15mo, mimes: ['*']}`
+- **FileRuleConfigDto::fromPdf()**,
+    - `{min: 1ko, max: 15mo, mimes: ['pdf']}`
+- **FileRuleConfigDto::fromDocument()**,
+    - `{min: 1ko, max: 15mo, mimes: ['csv', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'xls', 'xlsx', 'webp']}`
 
 You can also rewrite the rules according to your needs by filling in the input parameters.
 
@@ -168,4 +173,68 @@ public function rules(): array
         'image' => ['nullable', new FileRule(PublicFileType::FooImage)],
     ];
 }
+```
+
+You can inform your fronts with an API endpoint using the service and resource provided by the package.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers;
+
+use App\Enums\File\PublicFileType;
+use Illuminate\Http\JsonResponse;
+use Sylarele\LaravelSet\Media\Http\Resource\FileRuleResource;
+use Sylarele\LaravelSet\Media\Service\FileRuleService;
+
+class FileRuleController
+{
+    public function __construct(
+        private readonly FileRuleService $fileRuleService
+    ) {
+    }
+
+    public function index(): JsonResponse
+    {
+        $list = $this->fileRuleService->listByScope(PublicFileType::cases());
+
+        return FileRuleResource::collection($list)->response();
+    }
+}
+```
+
+The following example will return the following JSON:
+
+```json
+{
+  "data": [
+    {
+      "name": "foo:image",
+      "file_rule": {
+        "type": "image",
+        "mimes": [
+          "png",
+          "jpg",
+          "jpeg",
+          "webp"
+        ],
+        "size_min": {
+          "size": 1,
+          "unit": "ko"
+        },
+        "size_max": {
+          "size": 400,
+          "unit": "ko"
+        }
+      },
+      "image_config": {
+        "height": 100,
+        "width": 100
+      }
+    }
+  ]
+}
+
 ```

@@ -7,7 +7,6 @@ namespace Workbench\App\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Sylarele\LaravelSet\Media\Http\Resource\FileRuleResource;
 use Sylarele\LaravelSet\Media\Service\FileRuleService;
-use Symfony\Component\HttpFoundation\Response;
 use Workbench\App\Enums\File\PublicFileType;
 use Workbench\App\Http\Requests\StoreFooImageRequest;
 
@@ -27,6 +26,6 @@ class FileRuleController
 
     public function storeImage(StoreFooImageRequest $request): JsonResponse
     {
-        return new JsonResponse(Response::HTTP_CREATED);
+        return new JsonResponse(JsonResponse::HTTP_CREATED);
     }
 }
