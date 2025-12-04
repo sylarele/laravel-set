@@ -205,6 +205,19 @@ class FileRuleController
 }
 ```
 
+Modify the translation of the following rules to include the format:
+
+```php
+return [
+    'gt' => [
+        'file' => 'The :attribute field must be greater than :value :format.',
+    ],
+    'lt' => [
+        'file' => 'The :attribute field must be less than :value :format.',
+    ],
+];
+```
+
 The following example will return the following JSON:
 
 ```json

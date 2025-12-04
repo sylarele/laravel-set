@@ -39,6 +39,9 @@ trait RuleHelpers
             ['field' => [$rule]]
         );
 
-        return $validator->validate();
+        /** @var array<string, mixed> $validate */
+        $validate = $validator->validate();
+
+        return $validate;
     }
 }

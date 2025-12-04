@@ -38,7 +38,9 @@ final class FileRule implements ValidationRule, ValidatorAwareRule
 
         if ($validator->fails()) {
             foreach ($validator->messages()->all() as $message) {
-                $fail($this->validator->getTranslator()->get($message));
+                /** @var string $str */
+                $str = $this->validator->getTranslator()->get($message);
+                $fail($str);
             }
         }
 
