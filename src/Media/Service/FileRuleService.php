@@ -36,8 +36,8 @@ class FileRuleService
     {
         return new MediaInfoDto(
             key: $key,
-            fileRuleDto: $this->fileRulesConfig[(string) $key->value],
-            imageConfigDto: $this->imagesConfig[(string) $key->value],
+            fileRuleDto: $this->fileRulesConfig[(string) $key->value] ?? null,
+            imageConfigDto: $this->imagesConfig[(string) $key->value] ?? null,
         );
     }
 
