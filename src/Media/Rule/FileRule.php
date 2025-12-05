@@ -60,18 +60,22 @@ final class FileRule implements ValidationRule, ValidatorAwareRule
             );
 
         if ($isValid === FileWeightPolicy::Below) {
-            $fail('validation.gt.file')->translate([
+            $fail('validation.file_rules.gt')->translate([
                 'attribute' => $attribute,
                 'value' => $ruleFile->sizeMin->size,
-                'format' => $ruleFile->sizeMin->unit->name
+                'format' => trans(
+                    'validation.file_rules.unit.'.$ruleFile->sizeMin->unit->name,
+                ),
             ]);
         }
 
         if ($isValid === FileWeightPolicy::Exceeded) {
-            $fail('validation.lt.file')->translate([
+            $fail('validation.file_rules.lt')->translate([
                 'attribute' => $attribute,
                 'value' => $ruleFile->sizeMax->size,
-                'format' =>  $ruleFile->sizeMax->unit->name
+                'format' =>  trans(
+                    'validation.file_rules.unit.'.$ruleFile->sizeMax->unit->value,
+                ),
             ]);
         }
     }

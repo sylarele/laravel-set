@@ -175,6 +175,22 @@ public function rules(): array
 }
 ```
 
+Modify the translation of the following rules to include the format:
+
+```php
+return [
+    'file_rules' => [
+        'gt' => 'The :attribute field must be greater than :value :format.',
+        'lt' => 'The :attribute field must be less than :value :format.',
+        'unit' => [
+            'kb' => 'Kb',
+            'mb' => 'Mb',
+            'gb' => 'Gb',
+        ],
+    ],
+];
+```
+
 You can inform your fronts with an API endpoint using the service and resource provided by the package.
 
 ```php
@@ -203,19 +219,6 @@ class FileRuleController
         return FileRuleResource::collection($list)->response();
     }
 }
-```
-
-Modify the translation of the following rules to include the format:
-
-```php
-return [
-    'gt' => [
-        'file' => 'The :attribute field must be greater than :value :format.',
-    ],
-    'lt' => [
-        'file' => 'The :attribute field must be less than :value :format.',
-    ],
-];
 ```
 
 The following example will return the following JSON:
@@ -251,5 +254,4 @@ The following example will return the following JSON:
     }
   ]
 }
-
 ```

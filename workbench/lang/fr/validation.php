@@ -3,11 +3,13 @@
 declare(strict_types=1);
 
 return [
-    'gt' => [
-        'file' => 'La taille du fichier de :attribute doit être supérieure à :value :format.',
+    'file_rules' => [
+        'gt' => 'La taille du fichier de :attribute doit être supérieure à :value :format.',
+        'lt' => 'La taille du fichier de :attribute doit être inférieure à :value :format.',
+        'unit' => [
+            'kb' => 'Ko',
+            'mb' => 'Mo',
+            'gb' => 'Go',
+        ],
     ],
-    'lt' => [
-        'file' => 'La taille du fichier de :attribute doit être inférieure à :value :format.',
-    ],
-    'file' => 'lol',
 ];
