@@ -51,8 +51,8 @@ final readonly class FileRuleConfigDto
     }
 
     public static function fromImage(
-        string $sizeMin = '1ko',
-        string $sizeMax = '400ko'
+        string $sizeMin = '1kb',
+        string $sizeMax = '400kb'
     ): FileRuleConfigDto {
         return new self(
             type: 'image',
@@ -67,8 +67,8 @@ final readonly class FileRuleConfigDto
      */
     public static function fromDocument(
         array  $mimes = self::MIMES_ALLOWED_DOCUMENT,
-        string $sizeMin = '1ko',
-        string $sizeMax = '15mo'
+        string $sizeMin = '1kb',
+        string $sizeMax = '15mb'
     ): self {
         return new self(
             type: 'file',
@@ -79,8 +79,8 @@ final readonly class FileRuleConfigDto
     }
 
     public static function fromPdf(
-        string $sizeMin = '1ko',
-        string $sizeMax = '15mo'
+        string $sizeMin = '1kb',
+        string $sizeMax = '15mb'
     ): FileRuleConfigDto {
         return new self(
             type: 'file',
@@ -95,8 +95,8 @@ final readonly class FileRuleConfigDto
      */
     public static function fromFile(
         array  $mimes = [],
-        string $sizeMin = '1ko',
-        string $sizeMax = '15mo'
+        string $sizeMin = '1kb',
+        string $sizeMax = '15mb'
     ): FileRuleConfigDto {
         return new self(
             type: 'file',

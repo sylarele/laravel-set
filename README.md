@@ -116,13 +116,13 @@ return [
 The rules available for your media are:
 
 - **FileRuleConfigDto::fromImage()**,
-    - `{min: 1ko, max: 400ko, mimes: ['png', 'jpg', 'jpeg', 'webp']}`
+    - `{min: 1kb, max: 400kb, mimes: ['png', 'jpg', 'jpeg', 'webp']}`
 - **FileRuleConfigDto::fromFile()**,
-    - `{min: 1ko, max: 15mo, mimes: ['*']}`
+    - `{min: 1kb, max: 15mb, mimes: ['*']}`
 - **FileRuleConfigDto::fromPdf()**,
-    - `{min: 1ko, max: 15mo, mimes: ['pdf']}`
+    - `{min: 1kb, max: 15mb, mimes: ['pdf']}`
 - **FileRuleConfigDto::fromDocument()**,
-    - `{min: 1ko, max: 15mo, mimes: ['csv', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'xls', 'xlsx', 'webp']}`
+    - `{min: 1kb, max: 15mb, mimes: ['csv', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'xls', 'xlsx', 'webp']}`
 
 You can also rewrite the rules according to your needs by filling in the input parameters.
 
@@ -235,11 +235,13 @@ The following example will return the following JSON:
         ],
         "size_min": {
           "size": 1,
-          "unit": "ko"
+          "unit": "kb",
+          "bytes": 1000
         },
         "size_max": {
           "size": 400,
-          "unit": "ko"
+          "unit": "kb",
+          "bytes": 400000
         }
       },
       "image_config": {

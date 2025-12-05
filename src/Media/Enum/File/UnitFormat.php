@@ -6,14 +6,14 @@ namespace Sylarele\LaravelSet\Media\Enum\File;
 
 enum UnitFormat: string
 {
-    case Ko = 'ko';
-    case Mo = 'mo';
-    case Go = 'go';
+    case Kb = 'kb';
+    case Mb = 'mb';
+    case Gb = 'gb';
 
-    public static function implode(): string
+    public static function implode(string $separator = ', '): string
     {
         return implode(
-            ', ',
+            $separator,
             array_column(UnitFormat::cases(), 'value')
         );
     }

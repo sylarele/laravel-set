@@ -79,14 +79,14 @@ final class FileRuleTest extends TestCase
     public function testShouldFailOnTheMinimumFileSize(): void
     {
         Config::set('file_rules.rules', [
-            PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(sizeMin: '2mo'),
+            PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(sizeMin: '2mb'),
         ]);
 
         $file = UploadedFile::fake()->image('example.webp')->size(1024);
 
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(
-            'La taille du fichier de field doit être supérieure à 2 Mo.'
+            'La taille du fichier de field doit être supérieure à 2 Mb.'
         );
 
         $this->runValidation(
@@ -98,14 +98,14 @@ final class FileRuleTest extends TestCase
     public function testShouldFailOnTheMaximumFileSize(): void
     {
         Config::set('file_rules.rules', [
-            PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(sizeMax: '1mo'),
+            PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(sizeMax: '1mb'),
         ]);
 
         $file = UploadedFile::fake()->image('example.webp')->size(2048);
 
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(
-            'La taille du fichier de field doit être inférieure à 1 Mo.'
+            'La taille du fichier de field doit être inférieure à 1 Mb.'
         );
 
         $this->runValidation(

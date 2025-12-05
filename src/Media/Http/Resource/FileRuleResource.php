@@ -29,8 +29,12 @@ final class FileRuleResource extends JsonResource
                 fn (): array => [
                     'type' => $this->resource->fileRuleDto?->type,
                     'mimes' => $this->resource->fileRuleDto?->mimes,
-                    'size_min' => $this->resource->fileRuleDto?->sizeMin,
-                    'size_max' => $this->resource->fileRuleDto?->sizeMax,
+                    'size_min' => SizeConfigDtoRessource::make(
+                        $this->resource->fileRuleDto?->sizeMin,
+                    ),
+                    'size_max' => SizeConfigDtoRessource::make(
+                        $this->resource->fileRuleDto?->sizeMax,
+                    )
                 ]
             ),
             'image_config' => $this->when(

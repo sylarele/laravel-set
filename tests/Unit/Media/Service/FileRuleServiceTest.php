@@ -31,8 +31,8 @@ final class FileRuleServiceTest extends TestCase
     {
         Config::set('file_rules.rules', [
             PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(
-                sizeMin: '1mo',
-                sizeMax: '2mo'
+                sizeMin: '1mb',
+                sizeMax: '2mb'
             ),
         ]);
 
@@ -44,8 +44,8 @@ final class FileRuleServiceTest extends TestCase
         self::assertInstanceOf(FileRuleConfigDto::class, $result->fileRuleDto);
         self::assertSame('image', $result->fileRuleDto->type);
         self::assertSame(['png', 'jpg', 'jpeg', 'webp'], $result->fileRuleDto->mimes);
-        self::assertSame(UnitFormat::Mo, $result->fileRuleDto->sizeMin->unit);
-        self::assertSame(UnitFormat::Mo, $result->fileRuleDto->sizeMax->unit);
+        self::assertSame(UnitFormat::Mb, $result->fileRuleDto->sizeMin->unit);
+        self::assertSame(UnitFormat::Mb, $result->fileRuleDto->sizeMax->unit);
         self::assertSame(1.0, $result->fileRuleDto->sizeMin->size);
         self::assertSame(2.0, $result->fileRuleDto->sizeMax->size);
 

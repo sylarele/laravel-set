@@ -34,9 +34,9 @@ final readonly class SizeConfigDto
     public function getBytes(): int
     {
         $bytes = match ($this->unit) {
-            UnitFormat::Ko => $this->size * 1_024, // 1024^1
-            UnitFormat::Mo => $this->size * 1_048_576, // 1024^2
-            UnitFormat::Go => $this->size * 1_073_741_824, // 1024^3
+            UnitFormat::Kb => $this->size * 1_000,
+            UnitFormat::Mb => $this->size * 1_000_000,
+            UnitFormat::Gb => $this->size * 1_000_000_000,
         };
 
         return (int) $bytes;
@@ -47,7 +47,10 @@ final readonly class SizeConfigDto
         $matches = [];
 
         $isMatch = (bool) preg_match(
-            '/^(?P<quantity>\d+(?:[.,]\d+)?)\s*(?P<unit>ko|mo|go)$/i',
+            \sprintf(
+                '/^(?P<quantity>\d+(?:[.,]\d+)?)\s*(?P<unit>%s)$/i',
+                UnitFormat::implode('|'),
+            ),
             $size,
             $matches
         );
