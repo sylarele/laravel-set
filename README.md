@@ -81,3 +81,177 @@ See the schedule list :
 ```php
 php artisan schedule:list
 ```
+
+## Media
+
+### Rules
+
+When you need to manage multiple media types in your application, it is best to centralize the validation rules in your configuration.
+
+Create an enumeration to list your files:
+
+```php
+<?php
+enum PublicFileType: string
+{
+    case FooImage = 'foo:image';
+}
+```
+
+Create a `file_rules.php` and `image_rules.php` configuration file and declare your validation rules:
+
+```php
+<?php
+// config/file_rules.php
+
+use Sylarele\LaravelSet\Media\Dto\Config\FileRuleConfigDto;
+
+return [
+    'rules' => [
+        PublicFileType::FooImage->value => FileRuleConfigDto::fromImage(),
+    ],
+];
+```
+
+The rules available for your media are:
+
+- **FileRuleConfigDto::fromImage()**,
+    - `{min: 1kb, max: 400kb, mimes: ['png', 'jpg', 'jpeg', 'webp']}`
+- **FileRuleConfigDto::fromFile()**,
+    - `{min: 1kb, max: 15mb, mimes: ['*']}`
+- **FileRuleConfigDto::fromPdf()**,
+    - `{min: 1kb, max: 15mb, mimes: ['pdf']}`
+- **FileRuleConfigDto::fromDocument()**,
+    - `{min: 1kb, max: 15mb, mimes: ['csv', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'xls', 'xlsx', 'webp']}`
+
+You can also rewrite the rules according to your needs by filling in the input parameters.
+
+```php
+<?php
+// config/image_rules.php
+
+use Sylarele\LaravelSet\Media\Dto\Config\ImageConfigDto;
+
+return [
+    'rules' => [
+        PublicFileType::FooImage->value => new ImageConfigDto(
+            resizeHeight: 300,
+            resizeWidth: 300,
+        ),
+    ],
+];
+```
+
+Declare your configurations in your `provider`:
+
+```php
+<?php
+
+use Sylarele\LaravelSet\Media\Service\FileRuleService;
+
+public function register(): void
+{
+    $this->app
+        ->when(FileRuleService::class)
+        ->needs('$fileRulesConfig')
+        ->giveConfig('file_rules.rules');
+    $this->app
+        ->when(FileRuleService::class)
+        ->needs('$imagesConfig')
+        ->giveConfig('image_rules.rules');
+}
+```
+
+In your `FormRequest`, call your rule with the key from your file:
+
+```php
+use Sylarele\LaravelSet\Media\Rule\FileRule;
+
+public function rules(): array
+{
+    return [
+        'image' => ['nullable', new FileRule(PublicFileType::FooImage)],
+    ];
+}
+```
+
+Modify the translation of the following rules to include the format:
+
+```php
+return [
+    'file_rules' => [
+        'gt' => 'The :attribute field must be greater than :value :format.',
+        'lt' => 'The :attribute field must be less than :value :format.',
+        'unit' => [
+            'kb' => 'Kb',
+            'mb' => 'Mb',
+            'gb' => 'Gb',
+        ],
+    ],
+];
+```
+
+You can inform your fronts with an API endpoint using the service and resource provided by the package.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers;
+
+use App\Enums\File\PublicFileType;
+use Illuminate\Http\JsonResponse;
+use Sylarele\LaravelSet\Media\Http\Resource\FileRuleResource;
+use Sylarele\LaravelSet\Media\Service\FileRuleService;
+
+class FileRuleController
+{
+    public function __construct(
+        private readonly FileRuleService $fileRuleService
+    ) {
+    }
+
+    public function index(): JsonResponse
+    {
+        $list = $this->fileRuleService->listByScope(PublicFileType::cases());
+
+        return FileRuleResource::collection($list)->response();
+    }
+}
+```
+
+The following example will return the following JSON:
+
+```json
+{
+  "data": [
+    {
+      "name": "foo:image",
+      "file_rule": {
+        "type": "image",
+        "mimes": [
+          "png",
+          "jpg",
+          "jpeg",
+          "webp"
+        ],
+        "size_min": {
+          "size": 1,
+          "unit": "kb",
+          "bytes": 1000
+        },
+        "size_max": {
+          "size": 400,
+          "unit": "kb",
+          "bytes": 400000
+        }
+      },
+      "image_config": {
+        "height": 100,
+        "width": 100
+      }
+    }
+  ]
+}
+```

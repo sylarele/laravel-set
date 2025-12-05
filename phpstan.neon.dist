@@ -4,6 +4,8 @@ includes:
 parameters:
     level: max
 
+    treatPhpDocTypesAsCertain: false
+
     strictRules:
     	dynamicCallOnStaticMethod: false
 
@@ -14,3 +16,5 @@ parameters:
 
     paths:
         - src
+        - tests
+        - workbench

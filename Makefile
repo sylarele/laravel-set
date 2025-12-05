@@ -82,3 +82,13 @@ ci-lint: ## Lance l'analyse du formatage du code
 check-psr:  ## Test si des erreurs de mappage PSR-4 ou PSR-0 sont présents
 	$(call printSection,CHECK PSR)
 	./.github/script/check-psr.sh
+
+.PHONY: migrate-fresh
+migrate-fresh:  ## Lance le formatage du code
+	$(call printSection,Migrate fresh)
+	${BIN_DIR}/testbench migrate:fresh
+
+.PHONY: test
+test:  ## Lance le formatage du code
+	$(call printSection,DUSTER)
+	${BIN_DIR}/phpunit
