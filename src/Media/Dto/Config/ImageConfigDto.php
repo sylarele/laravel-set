@@ -13,7 +13,7 @@ final readonly class ImageConfigDto
     public function __construct(
         public ?int $resizeHeight = null,
         public ?int $resizeWidth = null,
-        public int $quality = 100,
+        public ?BackedEnum $imageCompressionLevel = null,
         public ?Position $position = null,
         public Format $format = Format::Webp,
     ) {
@@ -29,7 +29,10 @@ final readonly class ImageConfigDto
         return new self(
             resizeHeight: $integerData['resizeHeight'] ?? null,
             resizeWidth: $integerData['resizeWidth'] ?? null,
-            quality: $integerData['quality'] ?? 100,
+            imageCompressionLevel: \array_key_exists('imageCompressionLevel', $properties)
+            && $properties['imageCompressionLevel'] instanceof BackedEnum
+                ? $properties['imageCompressionLevel']
+                : null,
             position: isset($properties['position']) &&  $properties['position'] instanceof Position
                 ? $properties['position']
                 : null,
