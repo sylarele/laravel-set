@@ -9,7 +9,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Override;
 use Sylarele\LaravelSet\Dto\StateCountDto;
 
-/** @property StateCountDto $resource */
+/**
+ * @property StateCountDto $resource
+ */
 final class StateCountResource extends JsonResource
 {
     /**

@@ -32,10 +32,7 @@ final class FileRuleTest extends TestCase
             rule: new FileRule(PublicFileType::FooImage),
         );
 
-        $this->assertEquals(
-            ['field' => $file],
-            $validated
-        );
+        self::assertEquals(['field' => $file], $validated);
     }
 
     public function testShouldFailWithoutFile(): void
@@ -86,7 +83,7 @@ final class FileRuleTest extends TestCase
 
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(
-            'La taille du fichier de field doit être supérieure à 2 Mb.'
+            'La taille du fichier de field doit être supérieure à 2 Mo.'
         );
 
         $this->runValidation(
@@ -105,7 +102,7 @@ final class FileRuleTest extends TestCase
 
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(
-            'La taille du fichier de field doit être inférieure à 1 Mb.'
+            'La taille du fichier de field doit être inférieure à 1 Mo.'
         );
 
         $this->runValidation(

@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude('storage')
-    ->in(__DIR__);
+    ->in(__DIR__)
+    ->append([
+        __DIR__ . '/rector.php',
+        __FILE__,
+    ]);
 
 $config = new PhpCsFixer\Config();
 

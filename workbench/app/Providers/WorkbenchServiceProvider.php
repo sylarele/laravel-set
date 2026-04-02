@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Workbench\App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Override;
 use Sylarele\LaravelSet\Media\Service\FileRuleService;
 
 class WorkbenchServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->app

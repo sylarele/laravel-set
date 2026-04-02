@@ -63,8 +63,8 @@ final class FileRule implements ValidationRule, ValidatorAwareRule
             $fail('validation.file_rules.gt')->translate([
                 'attribute' => $attribute,
                 'value' => $ruleFile->sizeMin->size,
-                'format' => trans(
-                    'validation.file_rules.unit.'.$ruleFile->sizeMin->unit->name,
+                'format' => $this->validator->getTranslator()->get(
+                    'validation.file_rules.unit.'.$ruleFile->sizeMin->unit->value,
                 ),
             ]);
         }
@@ -73,7 +73,7 @@ final class FileRule implements ValidationRule, ValidatorAwareRule
             $fail('validation.file_rules.lt')->translate([
                 'attribute' => $attribute,
                 'value' => $ruleFile->sizeMax->size,
-                'format' =>  trans(
+                'format' => $this->validator->getTranslator()->get(
                     'validation.file_rules.unit.'.$ruleFile->sizeMax->unit->value,
                 ),
             ]);
