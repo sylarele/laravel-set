@@ -6,7 +6,7 @@ namespace Sylarele\LaravelSet\Tests\Unit\Media\Service;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
-use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestDox;
 use Sylarele\LaravelSet\Media\Dto\Config\FileRuleConfigDto;
 use Sylarele\LaravelSet\Media\Dto\Config\ImageConfigDto;
@@ -19,7 +19,7 @@ use Workbench\App\Enums\File\PublicFileType;
 /**
  * @internal
  */
-#[CoversNothing]
+#[CoversClass(FileRuleService::class)]
 final class FileRuleServiceTest extends TestCase
 {
     #[TestDox(

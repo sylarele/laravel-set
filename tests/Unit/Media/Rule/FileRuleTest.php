@@ -7,12 +7,17 @@ namespace Sylarele\LaravelSet\Tests\Unit\Media\Rule;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\ValidationException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Sylarele\LaravelSet\Media\Dto\Config\FileRuleConfigDto;
 use Sylarele\LaravelSet\Media\Rule\FileRule;
 use Sylarele\LaravelSet\Tests\Helper\RuleHelpers;
 use Sylarele\LaravelSet\Tests\TestCase;
 use Workbench\App\Enums\File\PublicFileType;
 
+/**
+ * @internal
+ */
+#[CoversClass(FileRule::class)]
 final class FileRuleTest extends TestCase
 {
     use RuleHelpers;
@@ -32,10 +37,7 @@ final class FileRuleTest extends TestCase
             rule: new FileRule(PublicFileType::FooImage),
         );
 
-        $this->assertEquals(
-            ['field' => $file],
-            $validated
-        );
+        self::assertEquals(['field' => $file], $validated);
     }
 
     public function testShouldFailWithoutFile(): void
@@ -86,7 +88,7 @@ final class FileRuleTest extends TestCase
 
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(
-            'La taille du fichier de field doit être supérieure à 2 Mb.'
+            'La taille du fichier de field doit être supérieure à 2 Mo.'
         );
 
         $this->runValidation(
@@ -105,7 +107,7 @@ final class FileRuleTest extends TestCase
 
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(
-            'La taille du fichier de field doit être inférieure à 1 Mb.'
+            'La taille du fichier de field doit être inférieure à 1 Mo.'
         );
 
         $this->runValidation(

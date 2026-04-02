@@ -23,9 +23,8 @@ trait RuleHelpers
      */
     protected function runValidation(
         mixed $value,
-        ValidationRule|Rule $rule,
+        Rule|ValidationRule $rule,
     ): array {
-
         $translator = new FileLoader(
             new Filesystem(),
             [

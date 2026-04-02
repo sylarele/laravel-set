@@ -27,7 +27,7 @@ final readonly class SizeConfigDto
                 : throw new RuntimeException('size should be a float value'),
             $properties['unit'] instanceof UnitFormat
                 ? $properties['unit']
-                : throw new RuntimeException('sizeMax should be instance of ' . UnitFormat::class),
+                : throw new RuntimeException('sizeMax should be instance of '.UnitFormat::class),
         );
     }
 

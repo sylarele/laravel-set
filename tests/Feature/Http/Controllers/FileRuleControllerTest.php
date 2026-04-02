@@ -5,8 +5,18 @@ declare(strict_types=1);
 namespace Sylarele\LaravelSet\Tests\Feature\Http\Controllers;
 
 use Illuminate\Http\UploadedFile;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Sylarele\LaravelSet\Media\Http\Resource\FileRuleResource;
+use Sylarele\LaravelSet\Media\Rule\FileRule;
+use Sylarele\LaravelSet\Media\Service\FileRuleService;
 use Sylarele\LaravelSet\Tests\TestCase;
 
+/**
+ * @internal
+ */
+#[CoversClass(FileRuleService::class)]
+#[CoversClass(FileRuleResource::class)]
+#[CoversClass(FileRule::class)]
 final class FileRuleControllerTest extends TestCase
 {
     public function testListFileRules(): void

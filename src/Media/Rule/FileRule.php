@@ -20,7 +20,7 @@ use Sylarele\LaravelSet\Media\Service\FileRuleService;
 
 final class FileRule implements ValidationRule, ValidatorAwareRule
 {
-    protected Validator $validator;
+    private Validator $validator;
 
     public function __construct(
         private readonly BackedEnum $fileType,
@@ -44,7 +44,7 @@ final class FileRule implements ValidationRule, ValidatorAwareRule
             }
         }
 
-        if (!$value instanceof UploadedFile) {
+        if (! $value instanceof UploadedFile) {
             $fail('validation.file')->translate(['attribute' => $attribute]);
 
             return;
@@ -63,8 +63,8 @@ final class FileRule implements ValidationRule, ValidatorAwareRule
             $fail('validation.file_rules.gt')->translate([
                 'attribute' => $attribute,
                 'value' => $ruleFile->sizeMin->size,
-                'format' => trans(
-                    'validation.file_rules.unit.'.$ruleFile->sizeMin->unit->name,
+                'format' => $this->validator->getTranslator()->get(
+                    'validation.file_rules.unit.'.$ruleFile->sizeMin->unit->value,
                 ),
             ]);
         }
@@ -73,7 +73,7 @@ final class FileRule implements ValidationRule, ValidatorAwareRule
             $fail('validation.file_rules.lt')->translate([
                 'attribute' => $attribute,
                 'value' => $ruleFile->sizeMax->size,
-                'format' =>  trans(
+                'format' => $this->validator->getTranslator()->get(
                     'validation.file_rules.unit.'.$ruleFile->sizeMax->unit->value,
                 ),
             ]);

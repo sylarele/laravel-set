@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Sylarele\LaravelSet\Http\Resources;
 
 use BackedEnum;
-use HasTitle;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Override;
+use Sylarele\LaravelSet\Contract\Enum\HasTitle;
 
 /**
  * @property BackedEnum&HasTitle $resource
@@ -16,7 +16,7 @@ use Override;
 final class TitledEnumResource extends JsonResource
 {
     /**
-     * @return array<string, string|int>
+     * @return array<string, int|string>
      */
     #[Override]
     public function toArray(Request $request): array
