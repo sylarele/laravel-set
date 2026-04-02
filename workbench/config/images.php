@@ -11,5 +11,5 @@ return [
             resizeHeight: 100,
             resizeWidth: 100,
         ),
-    ]
+    ],
 ];

@@ -34,7 +34,7 @@ final class FileRuleResource extends JsonResource
                     ),
                     'size_max' => SizeConfigDtoRessource::make(
                         $this->resource->fileRuleDto?->sizeMax,
-                    )
+                    ),
                 ]
             ),
             'image_config' => $this->when(

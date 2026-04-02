@@ -7,12 +7,17 @@ namespace Sylarele\LaravelSet\Tests\Unit\Media\Rule;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\ValidationException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Sylarele\LaravelSet\Media\Dto\Config\FileRuleConfigDto;
 use Sylarele\LaravelSet\Media\Rule\FileRule;
 use Sylarele\LaravelSet\Tests\Helper\RuleHelpers;
 use Sylarele\LaravelSet\Tests\TestCase;
 use Workbench\App\Enums\File\PublicFileType;
 
+/**
+ * @internal
+ */
+#[CoversClass(FileRule::class)]
 final class FileRuleTest extends TestCase
 {
     use RuleHelpers;

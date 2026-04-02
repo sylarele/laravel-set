@@ -16,7 +16,7 @@ use Sylarele\LaravelSet\Contract\Enum\HasTitle;
 final class TitledEnumResource extends JsonResource
 {
     /**
-     * @return array<string, string|int>
+     * @return array<string, int|string>
      */
     #[Override]
     public function toArray(Request $request): array

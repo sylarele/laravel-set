@@ -65,16 +65,17 @@ class FileRuleService
         $fileRule = $this->findFileRuleOrFail($key);
 
         $sizeMin = $fileRule->sizeMin->getBytes();
+
         if ($size < $sizeMin) {
             return FileWeightPolicy::Below;
         }
 
         $sizeMax = $fileRule->sizeMax->getBytes();
+
         if ($size > $sizeMax) {
             return FileWeightPolicy::Exceeded;
         }
 
         return FileWeightPolicy::Within;
     }
-
 }

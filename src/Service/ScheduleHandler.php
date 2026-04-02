@@ -36,7 +36,7 @@ final readonly class ScheduleHandler implements ScheduleInterface
     /**
      * @param array<int, string> $filenames
      */
-    protected function setInstance(array $filenames, Schedule $schedule): void
+    private function setInstance(array $filenames, Schedule $schedule): void
     {
         foreach ($filenames as $filename) {
             $scheduleClass = require_once $filename;

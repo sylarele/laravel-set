@@ -9,7 +9,7 @@ use Illuminate\Contracts\Support\Arrayable;
 /**
  * Use to count the states of a query, generally for Tabs in interfcae.
  *
- * @implements Arrayable<string, string|int>
+ * @implements Arrayable<string, int|string>
  */
 final class StateCountDto implements Arrayable
 {
@@ -21,7 +21,7 @@ final class StateCountDto implements Arrayable
     }
 
     /**
-     * @return array<string, string|int>
+     * @return array<string, int|string>
      */
     public function toArray(): array
     {

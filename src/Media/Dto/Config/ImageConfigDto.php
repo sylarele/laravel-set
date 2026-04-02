@@ -20,7 +20,7 @@ final readonly class ImageConfigDto
     }
 
     /**
-     * @param array<string, int|BackedEnum> $properties
+     * @param array<string, BackedEnum|int> $properties
      */
     public static function __set_state(array $properties): self
     {
@@ -33,10 +33,10 @@ final readonly class ImageConfigDto
             && $properties['imageCompressionLevelSetList'] instanceof BackedEnum
                 ? $properties['imageCompressionLevelSetList']
                 : null,
-            position: isset($properties['position']) &&  $properties['position'] instanceof Position
+            position: isset($properties['position']) && $properties['position'] instanceof Position
                 ? $properties['position']
                 : null,
-            format: isset($properties['format']) &&  $properties['format'] instanceof Format
+            format: isset($properties['format']) && $properties['format'] instanceof Format
                 ? $properties['format']
                 : Format::Webp,
         );

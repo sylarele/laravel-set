@@ -9,7 +9,7 @@ use RuntimeException;
 final readonly class FileRuleConfigDto
 {
     private const array MIMES_ALLOWED_DOCUMENT = [
-        'csv', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'xls', 'xlsx', 'webp'
+        'csv', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'xls', 'xlsx', 'webp',
     ];
 
     private const array MIMES_ALLOWED_IMAGE = [
@@ -43,10 +43,10 @@ final readonly class FileRuleConfigDto
             array_values($mimes),
             $properties['sizeMin'] instanceof SizeConfigDto
                 ? $properties['sizeMin']
-                : throw new RuntimeException('sizeMin should be instance of ' . SizeConfigDto::class),
+                : throw new RuntimeException('sizeMin should be instance of '.SizeConfigDto::class),
             $properties['sizeMax'] instanceof SizeConfigDto
                 ? $properties['sizeMax']
-                : throw new RuntimeException('sizeMax should be instance of ' . SizeConfigDto::class),
+                : throw new RuntimeException('sizeMax should be instance of '.SizeConfigDto::class),
         );
     }
 
@@ -66,7 +66,7 @@ final readonly class FileRuleConfigDto
      * @param array<int, string> $mimes
      */
     public static function fromDocument(
-        array  $mimes = self::MIMES_ALLOWED_DOCUMENT,
+        array $mimes = self::MIMES_ALLOWED_DOCUMENT,
         string $sizeMin = '1kb',
         string $sizeMax = '15mb'
     ): self {
@@ -94,7 +94,7 @@ final readonly class FileRuleConfigDto
      * @param array<int, string> $mimes
      */
     public static function fromFile(
-        array  $mimes = [],
+        array $mimes = [],
         string $sizeMin = '1kb',
         string $sizeMax = '15mb'
     ): FileRuleConfigDto {
