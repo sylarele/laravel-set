@@ -255,3 +255,29 @@ The following example will return the following JSON:
   ]
 }
 ```
+
+## Mapper
+
+The mapper contract (`Sylarele\LaravelSet\Mapper\Contract\MapperInterface`) standardizes object creation from an associative array, which is useful for transforming request or payload data into typed DTOs.
+
+A mapper implementation should expose a single `map(string $classname, array $data): mixed` method, instantiate the target class with the given data, and throw a `MapperException` when input data is invalid.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Sylarele\LaravelSet\Mapper\Contract\MapperInterface;
+use Sylarele\LaravelSet\Mapper\Exception\MapperException;
+
+try {
+    $dto = $mapper->map(ExampleDto::class, [
+        'id' => 1,
+        'firstname' => 'John',
+        'lastname' => 'Doe',
+        'age' => null,
+    ]);
+} catch (MapperException $e) {
+    // Handle invalid mapping payload
+}
+```
