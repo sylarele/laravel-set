@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\Config\RectorConfig;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
@@ -28,7 +27,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(PreferPHPUnitSelfCallRector::class);
 
     $rectorConfig->sets([
-        PHPUnitSetList::PHPUNIT_120,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
@@ -39,7 +37,6 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::TYPE_DECLARATION,
     ]);
 
-    $rectorConfig->cacheClass(FileCacheStorage::class);
     $rectorConfig->cacheDirectory(__DIR__.'/storage/tmp/rector');
     $rectorConfig->phpstanConfig(__DIR__.'/phpstan.neon.dist');
 };

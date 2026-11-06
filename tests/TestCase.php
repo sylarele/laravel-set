@@ -19,7 +19,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     use WithWorkbench;
 
     /**
-     * @param  Application  $app
+     * @param Application $app
      */
     #[Override]
     protected function defineEnvironment($app)
