@@ -8,7 +8,7 @@ final readonly class ImageCompressionLevelDto
 {
     /**
      * @param int $sizeFrom Percentage of the total image size relative to the maximum image
-     * size at which this level applies
+     *                      size at which this level applies
      * @param int $quality Quality percentage applied at this level
      */
     public function __construct(
